@@ -13,3 +13,11 @@ export interface Product {
   category_id: number
   category: Category
 }
+
+export interface ProductFormValues {
+  name: string
+  price: number
+  quantity: number
+  low_stock_threshold: number
+  category_id: number
+}

@@ -1,0 +1,99 @@
+import { useMemo, useState } from "react"
+import { Plus, Search } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { CategoryFilter } from "@/components/dashboard/CategoryFilter"
+import { ProductTable } from "@/components/products/ProductTable"
+import { ProductForm } from "@/components/products/ProductForm"
+import { filterProductsByCategory, filterProductsBySearch } from "@/lib/inventory-filters"
+import type { Product, Category, ProductFormValues } from "@/types/inventory"
+
+interface ProductsPageProps {
+  products: Product[]
+  categories: Category[]
+  onAddProduct: (values: ProductFormValues) => void
+  onUpdateProduct: (id: number, values: ProductFormValues) => void
+}
+
+export default function ProductsPage({
+  products,
+  categories,
+  onAddProduct,
+  onUpdateProduct,
+}: ProductsPageProps) {
+  const [activeCategory, setActiveCategory] = useState<number | "all">("all")
+  const [search, setSearch] = useState("")
+  const [formOpen, setFormOpen] = useState(false)
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null)
+  const [formKey, setFormKey] = useState(0)
+
+  const filteredProducts = useMemo(() => {
+    const byCategory = filterProductsByCategory(products, activeCategory)
+    return filterProductsBySearch(byCategory, search)
+  }, [products, activeCategory, search])
+
+  function handleAddClick() {
+    setEditingProduct(null)
+    setFormKey((k) => k + 1)
+    setFormOpen(true)
+  }
+
+  function handleEditClick(product: Product) {
+    setEditingProduct(product)
+    setFormKey((k) => k + 1)
+    setFormOpen(true)
+  }
+
+  function handleFormSubmit(values: ProductFormValues) {
+    if (editingProduct) {
+      onUpdateProduct(editingProduct.id, values)
+    } else {
+      onAddProduct(values)
+    }
+  }
+
+  return (
+    <div className="p-8">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-semibold text-gray-900">Products</h2>
+          <p className="mt-1 text-sm text-gray-500">Lahat ng tracked items sa inventory mo.</p>
+        </div>
+        <Button onClick={handleAddClick} className="bg-[#FF6A3D] hover:bg-[#FF6A3D]/90">
+          <Plus size={16} className="mr-1.5" />
+          Add Product
+        </Button>
+      </div>
+
+      <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="relative w-full sm:max-w-xs">
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Input
+            placeholder="Search products..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="pl-9"
+          />
+        </div>
+        <CategoryFilter
+          categories={categories}
+          activeCategory={activeCategory}
+          onSelect={setActiveCategory}
+        />
+      </div>
+
+      <div className="mt-6">
+        <ProductTable products={filteredProducts} onEdit={handleEditClick} />
+      </div>
+
+      <ProductForm
+        key={formKey}
+        open={formOpen}
+        onOpenChange={setFormOpen}
+        categories={categories}
+        initialProduct={editingProduct}
+        onSubmit={handleFormSubmit}
+      />
+    </div>
+  )
+}
