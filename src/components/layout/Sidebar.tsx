@@ -1,15 +1,9 @@
 import { NavLink } from "react-router-dom"
-import { LayoutDashboard, Package, Tags } from "lucide-react"
-
-const navItems = [
-  { label: "Dashboard", icon: LayoutDashboard, to: "/" },
-  { label: "Products", icon: Package, to: "/products" },
-  { label: "Categories", icon: Tags, to: "/categories" },
-]
+import { navItems } from "@/lib/nav-items"
 
 export function Sidebar() {
   return (
-    <aside className="flex h-screen w-64 flex-shrink-0 flex-col bg-[#111111] text-white">
+    <aside className="hidden h-screen w-64 flex-shrink-0 flex-col bg-[#111111] text-white lg:flex">
       <div className="px-6 py-6">
         <h1 className="text-lg font-semibold">Inventory</h1>
       </div>

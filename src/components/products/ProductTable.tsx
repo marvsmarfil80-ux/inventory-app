@@ -8,28 +8,41 @@ import {
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { StatusBadge } from "@/components/products/StatusBadge"
-import { Pencil } from "lucide-react"
+import { EmptyState } from "@/components/shared/EmptyState"
+import { Pencil, PackageSearch, PackagePlus } from "lucide-react"
 import type { Product } from "@/types/inventory"
 
 interface ProductTableProps {
   products: Product[]
+  hasAnyProducts: boolean
   onEdit: (product: Product) => void
+  onAddProduct?: () => void
 }
 
-export function ProductTable({ products, onEdit }: ProductTableProps) {
+export function ProductTable({ products, hasAnyProducts, onEdit, onAddProduct }: ProductTableProps) {
   if (products.length === 0) {
+    if (!hasAnyProducts) {
+      return (
+        <EmptyState
+          icon={PackagePlus}
+          title="Wala pang products"
+          description="I-add mo yung unang item para masimulan ang pag-track ng inventory mo."
+          actionLabel={onAddProduct ? "Add Product" : undefined}
+          onAction={onAddProduct}
+        />
+      )
+    }
     return (
-      <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-200 bg-white py-16 text-center">
-        <p className="text-sm font-medium text-gray-900">No products found</p>
-        <p className="mt-1 text-sm text-gray-500">
-          Try a different category or check back later.
-        </p>
-      </div>
+      <EmptyState
+        icon={PackageSearch}
+        title="Walang nahanap na products"
+        description="Subukan mong baguhin ang search term o category filter."
+      />
     )
   }
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+    <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
@@ -44,13 +57,13 @@ export function ProductTable({ products, onEdit }: ProductTableProps) {
         <TableBody>
           {products.map((product) => (
             <TableRow key={product.id} className="hover:bg-gray-50">
-              <TableCell className="font-medium text-gray-900">{product.name}</TableCell>
-              <TableCell className="text-gray-600">{product.category.name}</TableCell>
-              <TableCell className="text-right text-gray-900">
+              <TableCell className="font-medium text-gray-900 whitespace-nowrap">{product.name}</TableCell>
+              <TableCell className="text-gray-600 whitespace-nowrap">{product.category.name}</TableCell>
+              <TableCell className="text-right text-gray-900 whitespace-nowrap">
                 ${product.price.toFixed(2)}
               </TableCell>
               <TableCell className="text-right text-gray-900">{product.quantity}</TableCell>
-              <TableCell>
+              <TableCell className="whitespace-nowrap">
                 <StatusBadge product={product} />
               </TableCell>
               <TableCell className="text-right">

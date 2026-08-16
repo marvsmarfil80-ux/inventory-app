@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CategoryFilter } from "@/components/dashboard/CategoryFilter"
 import { ProductTable } from "@/components/products/ProductTable"
+import { ProductTableSkeleton } from "@/components/products/ProductTableSkeleton"
 import { ProductForm } from "@/components/products/ProductForm"
 import { filterProductsByCategory, filterProductsBySearch } from "@/lib/inventory-filters"
 import type { Product, Category, ProductFormValues } from "@/types/inventory"
@@ -11,6 +12,7 @@ import type { Product, Category, ProductFormValues } from "@/types/inventory"
 interface ProductsPageProps {
   products: Product[]
   categories: Category[]
+  isLoading: boolean
   onAddProduct: (values: ProductFormValues) => void
   onUpdateProduct: (id: number, values: ProductFormValues) => void
 }
@@ -18,6 +20,7 @@ interface ProductsPageProps {
 export default function ProductsPage({
   products,
   categories,
+  isLoading,
   onAddProduct,
   onUpdateProduct,
 }: ProductsPageProps) {
@@ -53,8 +56,8 @@ export default function ProductsPage({
   }
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between">
+    <div className="p-4 lg:p-8">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-2xl font-semibold text-gray-900">Products</h2>
           <p className="mt-1 text-sm text-gray-500">Lahat ng tracked items sa inventory mo.</p>
@@ -83,7 +86,16 @@ export default function ProductsPage({
       </div>
 
       <div className="mt-6">
-        <ProductTable products={filteredProducts} onEdit={handleEditClick} />
+        {isLoading ? (
+          <ProductTableSkeleton />
+        ) : (
+          <ProductTable
+            products={filteredProducts}
+            hasAnyProducts={products.length > 0}
+            onEdit={handleEditClick}
+            onAddProduct={handleAddClick}
+          />
+        )}
       </div>
 
       <ProductForm

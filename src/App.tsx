@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Routes, Route } from "react-router-dom"
 import { Sidebar } from "@/components/layout/Sidebar"
+import { MobileNav } from "@/components/layout/MobileNav"
 import DashboardPage from "@/pages/DashboardPage"
 import ProductsPage from "@/pages/ProductsPage"
 import CategoriesPage from "@/pages/CategoriesPage"
@@ -9,6 +10,14 @@ import type { Product, ProductFormValues } from "@/types/inventory"
 
 function App() {
   const [products, setProducts] = useState<Product[]>(mockProducts)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Simulated initial fetch delay — pinapatunayan lang na gumagana yung skeletons.
+  // Sa Phase 7, dito papalitan ng totoong loading state ng fetch call.
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 600)
+    return () => clearTimeout(timer)
+  }, [])
 
   function addProduct(values: ProductFormValues) {
     const category = mockCategories.find((c) => c.id === values.category_id)!
@@ -28,26 +37,33 @@ function App() {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <main className="flex-1 overflow-auto bg-[#FAFAFA]">
-        <Routes>
-          <Route path="/" element={<DashboardPage products={products} categories={mockCategories} />} />
-          <Route
-            path="/products"
-            element={
-              <ProductsPage
-                products={products}
-                categories={mockCategories}
-                onAddProduct={addProduct}
-                onUpdateProduct={updateProduct}
-              />
-            }
-          />
-          <Route
-            path="/categories"
-            element={<CategoriesPage products={products} categories={mockCategories} />}
-          />
-        </Routes>
-      </main>
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <MobileNav />
+        <main className="flex-1 overflow-auto bg-[#FAFAFA]">
+          <Routes>
+            <Route
+              path="/"
+              element={<DashboardPage products={products} categories={mockCategories} isLoading={isLoading} />}
+            />
+            <Route
+              path="/products"
+              element={
+                <ProductsPage
+                  products={products}
+                  categories={mockCategories}
+                  isLoading={isLoading}
+                  onAddProduct={addProduct}
+                  onUpdateProduct={updateProduct}
+                />
+              }
+            />
+            <Route
+              path="/categories"
+              element={<CategoriesPage products={products} categories={mockCategories} />}
+            />
+          </Routes>
+        </main>
+      </div>
     </div>
   )
 }
