@@ -8,8 +8,8 @@ interface CategoryFilterProps {
 
 export function CategoryFilter({ categories, activeCategory, onSelect }: CategoryFilterProps) {
   const baseClass = "rounded-full px-4 py-1.5 text-sm font-medium transition-colors"
-  const activeClass = "bg-[#FF6A3D] text-white"
-  const inactiveClass = "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+  const activeClass = "bg-primary text-primary-foreground"
+  const inactiveClass = "bg-card text-muted-foreground border border-border hover:bg-muted"
 
   return (
     <div className="flex flex-wrap gap-2">

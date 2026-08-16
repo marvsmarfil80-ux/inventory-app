@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom"
 import { navItems } from "@/lib/nav-items"
+import { ThemeToggle } from "@/components/layout/ThemeToggle"
 
 export function Sidebar() {
   return (
@@ -8,7 +9,7 @@ export function Sidebar() {
         <h1 className="text-lg font-semibold">Inventory</h1>
       </div>
 
-      <nav className="flex flex-col gap-1 px-3">
+      <nav className="flex flex-1 flex-col gap-1 px-3">
         {navItems.map((item) => {
           const Icon = item.icon
           return (
@@ -19,7 +20,7 @@ export function Sidebar() {
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
                   isActive
-                    ? "bg-[#FF6A3D] text-white font-medium"
+                    ? "bg-primary text-primary-foreground font-medium"
                     : "text-gray-400 hover:bg-white/5 hover:text-white"
                 }`
               }
@@ -30,6 +31,10 @@ export function Sidebar() {
           )
         })}
       </nav>
+
+      <div className="border-t border-white/10 px-3 py-3">
+        <ThemeToggle />
+      </div>
     </aside>
   )
 }

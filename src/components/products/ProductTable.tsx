@@ -42,7 +42,7 @@ export function ProductTable({ products, hasAnyProducts, onEdit, onAddProduct }:
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
+    <div className="overflow-x-auto rounded-lg border border-border bg-card">
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
@@ -56,13 +56,17 @@ export function ProductTable({ products, hasAnyProducts, onEdit, onAddProduct }:
         </TableHeader>
         <TableBody>
           {products.map((product) => (
-            <TableRow key={product.id} className="hover:bg-gray-50">
-              <TableCell className="font-medium text-gray-900 whitespace-nowrap">{product.name}</TableCell>
-              <TableCell className="text-gray-600 whitespace-nowrap">{product.category.name}</TableCell>
-              <TableCell className="text-right text-gray-900 whitespace-nowrap">
+            <TableRow key={product.id} className="hover:bg-muted/50">
+              <TableCell className="font-medium text-foreground whitespace-nowrap">
+                {product.name}
+              </TableCell>
+              <TableCell className="text-muted-foreground whitespace-nowrap">
+                {product.category.name}
+              </TableCell>
+              <TableCell className="text-right text-foreground whitespace-nowrap">
                 ${product.price.toFixed(2)}
               </TableCell>
-              <TableCell className="text-right text-gray-900">{product.quantity}</TableCell>
+              <TableCell className="text-right text-foreground">{product.quantity}</TableCell>
               <TableCell className="whitespace-nowrap">
                 <StatusBadge product={product} />
               </TableCell>
@@ -71,7 +75,7 @@ export function ProductTable({ products, hasAnyProducts, onEdit, onAddProduct }:
                   variant="ghost"
                   size="sm"
                   onClick={() => onEdit(product)}
-                  className="text-gray-500 hover:text-gray-900"
+                  className="text-muted-foreground hover:text-foreground"
                 >
                   <Pencil size={14} className="mr-1.5" />
                   Edit

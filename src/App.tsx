@@ -12,8 +12,6 @@ function App() {
   const [products, setProducts] = useState<Product[]>(mockProducts)
   const [isLoading, setIsLoading] = useState(true)
 
-  // Simulated initial fetch delay — pinapatunayan lang na gumagana yung skeletons.
-  // Sa Phase 7, dito papalitan ng totoong loading state ng fetch call.
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 600)
     return () => clearTimeout(timer)
@@ -39,7 +37,7 @@ function App() {
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <MobileNav />
-        <main className="flex-1 overflow-auto bg-[#FAFAFA]">
+        <main className="flex-1 overflow-auto bg-background">
           <Routes>
             <Route
               path="/"

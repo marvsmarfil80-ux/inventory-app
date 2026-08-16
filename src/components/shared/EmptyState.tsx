@@ -11,16 +11,16 @@ interface EmptyStateProps {
 
 export function EmptyState({ icon: Icon, title, description, actionLabel, onAction }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-gray-200 bg-white py-16 text-center">
+    <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border bg-card py-16 text-center">
       {Icon && (
-        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
-          <Icon size={18} className="text-gray-400" />
+        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+          <Icon size={18} className="text-muted-foreground" />
         </div>
       )}
-      <p className="text-sm font-medium text-gray-900">{title}</p>
-      <p className="mt-1 max-w-xs text-sm text-gray-500">{description}</p>
+      <p className="text-sm font-medium text-foreground">{title}</p>
+      <p className="mt-1 max-w-xs text-sm text-muted-foreground">{description}</p>
       {actionLabel && onAction && (
-        <Button onClick={onAction} className="mt-4 bg-[#FF6A3D] hover:bg-[#FF6A3D]/90">
+        <Button onClick={onAction} className="mt-4">
           {actionLabel}
         </Button>
       )}

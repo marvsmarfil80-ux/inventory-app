@@ -104,7 +104,7 @@ export function ProductForm({
               value={values.name}
               onChange={(e) => setValues({ ...values, name: e.target.value })}
             />
-            {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
+            {errors.name && <p className="text-xs text-red-500 dark:text-red-400">{errors.name}</p>}
           </div>
 
           <div className="space-y-1.5">
@@ -124,7 +124,9 @@ export function ProductForm({
                 ))}
               </SelectContent>
             </Select>
-            {errors.category_id && <p className="text-xs text-red-500">{errors.category_id}</p>}
+            {errors.category_id && (
+              <p className="text-xs text-red-500 dark:text-red-400">{errors.category_id}</p>
+            )}
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -138,7 +140,7 @@ export function ProductForm({
                 value={values.price}
                 onChange={(e) => setValues({ ...values, price: Number(e.target.value) })}
               />
-              {errors.price && <p className="text-xs text-red-500">{errors.price}</p>}
+              {errors.price && <p className="text-xs text-red-500 dark:text-red-400">{errors.price}</p>}
             </div>
 
             <div className="space-y-1.5">
@@ -150,7 +152,9 @@ export function ProductForm({
                 value={values.quantity}
                 onChange={(e) => setValues({ ...values, quantity: Number(e.target.value) })}
               />
-              {errors.quantity && <p className="text-xs text-red-500">{errors.quantity}</p>}
+              {errors.quantity && (
+                <p className="text-xs text-red-500 dark:text-red-400">{errors.quantity}</p>
+              )}
             </div>
           </div>
 
@@ -166,7 +170,7 @@ export function ProductForm({
               }
             />
             {errors.low_stock_threshold && (
-              <p className="text-xs text-red-500">{errors.low_stock_threshold}</p>
+              <p className="text-xs text-red-500 dark:text-red-400">{errors.low_stock_threshold}</p>
             )}
           </div>
 
@@ -174,9 +178,7 @@ export function ProductForm({
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
-            <Button type="submit" className="bg-[#FF6A3D] hover:bg-[#FF6A3D]/90">
-              {isEditing ? "Save Changes" : "Add Product"}
-            </Button>
+            <Button type="submit">{isEditing ? "Save Changes" : "Add Product"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

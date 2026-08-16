@@ -59,10 +59,10 @@ export default function ProductsPage({
     <div className="p-4 lg:p-8">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-semibold text-gray-900">Products</h2>
-          <p className="mt-1 text-sm text-gray-500">Lahat ng tracked items sa inventory mo.</p>
+          <h2 className="text-2xl font-semibold text-foreground">Products</h2>
+          <p className="mt-1 text-sm text-muted-foreground">Lahat ng tracked items sa inventory mo.</p>
         </div>
-        <Button onClick={handleAddClick} className="bg-[#FF6A3D] hover:bg-[#FF6A3D]/90">
+        <Button onClick={handleAddClick}>
           <Plus size={16} className="mr-1.5" />
           Add Product
         </Button>
@@ -70,7 +70,7 @@ export default function ProductsPage({
 
       <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full sm:max-w-xs">
-          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search products..."
             value={search}

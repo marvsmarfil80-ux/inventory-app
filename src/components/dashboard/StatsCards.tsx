@@ -22,7 +22,7 @@ export function StatsCards({ products, categories }: StatsCardsProps) {
       {stats.map((stat) => (
         <Card key={stat.label} className="p-4">
           <p className="text-sm text-muted-foreground">{stat.label}</p>
-          <p className={`mt-1 text-2xl font-semibold ${stat.alert ? "text-[#FF6A3D]" : "text-gray-900"}`}>
+          <p className={`mt-1 text-2xl font-semibold ${stat.alert ? "text-primary" : "text-foreground"}`}>
             {stat.value}
           </p>
         </Card>

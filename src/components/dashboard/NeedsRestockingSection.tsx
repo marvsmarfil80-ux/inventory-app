@@ -4,9 +4,9 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export function NeedsRestockingSection() {
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4 sm:p-6">
+    <div className="rounded-lg border border-border bg-card p-4 sm:p-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h3 className="font-semibold text-gray-900">Needs restocking</h3>
+        <h3 className="font-semibold text-foreground">Needs restocking</h3>
         <Button asChild variant="outline" className="w-full sm:w-auto">
           <Link to="/products">View all products</Link>
         </Button>
