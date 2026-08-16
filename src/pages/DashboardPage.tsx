@@ -13,14 +13,16 @@ export default function DashboardPage({ products, categories, isLoading }: Dashb
   return (
     <div className="p-4 lg:p-8">
       <h2 className="text-2xl font-semibold text-foreground">Dashboard</h2>
-      <p className="mt-1 text-sm text-muted-foreground">Overview ng inventory mo.</p>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Overview of your inventory and stock levels.
+      </p>
 
       <div className="mt-6">
         {isLoading ? <StatsCardsSkeleton /> : <StatsCards products={products} categories={categories} />}
       </div>
 
       <div className="mt-6">
-        <NeedsRestockingSection />
+        <NeedsRestockingSection products={products} isLoading={isLoading} />
       </div>
     </div>
   )

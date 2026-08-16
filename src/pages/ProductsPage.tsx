@@ -60,7 +60,7 @@ export default function ProductsPage({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-2xl font-semibold text-foreground">Products</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Lahat ng tracked items sa inventory mo.</p>
+          <p className="mt-1 text-sm text-muted-foreground">Manage and monitor all products in your inventory.</p>
         </div>
         <Button onClick={handleAddClick}>
           <Plus size={16} className="mr-1.5" />

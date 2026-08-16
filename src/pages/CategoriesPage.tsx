@@ -12,7 +12,7 @@ export default function CategoriesPage({ products, categories }: CategoriesPageP
   return (
     <div className="p-4 lg:p-8">
       <h2 className="text-2xl font-semibold text-foreground">Categories</h2>
-      <p className="mt-1 text-sm text-muted-foreground">Pag-uuri ng mga products sa inventory mo.</p>
+      <p className="mt-1 text-sm text-muted-foreground">Organize and manage your inventory categories.</p>
 
       <div className="mt-6">
         {categories.length === 0 ? (

@@ -11,3 +11,9 @@ export function getTotalValue(products: Product[]): number {
 export function getLowStockCount(products: Product[]): number {
   return products.filter((p) => p.quantity <= p.low_stock_threshold).length
 }
+
+export function getLowStockProducts(products: Product[]): Product[] {
+  return products
+    .filter((p) => p.quantity <= p.low_stock_threshold)
+    .sort((a, b) => a.quantity - b.quantity)
+}
