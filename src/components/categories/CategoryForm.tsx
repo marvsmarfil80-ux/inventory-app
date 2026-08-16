@@ -44,7 +44,7 @@ export function CategoryForm({ open, onOpenChange, onSubmit }: CategoryFormProps
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="w-[calc(100%-2rem)] sm:max-w-md">
         <DialogHeader>
           <DialogTitle>New Category</DialogTitle>
         </DialogHeader>

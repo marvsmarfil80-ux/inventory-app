@@ -24,7 +24,7 @@ export default function CategoriesPage({ products, categories, onAddCategory }: 
             Organize and manage your inventory categories.
           </p>
         </div>
-        <Button onClick={() => setFormOpen(true)}>
+        <Button onClick={() => setFormOpen(true)} className="w-full sm:w-auto">
           <Plus size={16} className="mr-1.5" />
           New Category
         </Button>

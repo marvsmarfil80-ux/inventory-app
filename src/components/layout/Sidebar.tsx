@@ -4,7 +4,7 @@ import { ThemeToggle } from "@/components/layout/ThemeToggle"
 
 export function Sidebar() {
   return (
-    <aside className="hidden h-screen w-64 shrink-0 flex-col bg-[#111111] text-white lg:flex">
+    <aside className="hidden h-screen w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground lg:flex">
       <div className="px-6 py-6">
         <h1 className="text-lg font-semibold">Inventory</h1>
       </div>
@@ -32,7 +32,7 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="border-t border-white/10 px-3 py-3">
+      <div className="border-t border-sidebar-border px-3 py-3">
         <ThemeToggle />
       </div>
     </aside>

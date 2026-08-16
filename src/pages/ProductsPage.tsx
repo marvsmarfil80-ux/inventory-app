@@ -79,7 +79,7 @@ export default function ProductsPage({
             Manage and monitor all products in your inventory.
           </p>
         </div>
-        <Button onClick={handleAddClick}>
+        <Button onClick={handleAddClick} className="w-full sm:w-auto">
           <Plus size={16} className="mr-1.5" />
           Add Product
         </Button>

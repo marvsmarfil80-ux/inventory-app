@@ -90,7 +90,7 @@ export function ProductForm({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="w-[calc(100%-2rem)] sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{isEditing ? "Edit Product" : "Add New Product"}</DialogTitle>
         </DialogHeader>
