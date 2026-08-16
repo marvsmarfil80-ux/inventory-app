@@ -4,7 +4,7 @@ import { ThemeToggle } from "@/components/layout/ThemeToggle"
 
 export function Sidebar() {
   return (
-    <aside className="hidden h-screen w-64 flex-shrink-0 flex-col bg-[#111111] text-white lg:flex">
+    <aside className="hidden h-screen w-64 shrink-0 flex-col bg-[#111111] text-white lg:flex">
       <div className="px-6 py-6">
         <h1 className="text-lg font-semibold">Inventory</h1>
       </div>
