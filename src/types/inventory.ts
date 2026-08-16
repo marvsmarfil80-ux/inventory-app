@@ -21,3 +21,8 @@ export interface ProductFormValues {
   low_stock_threshold: number
   category_id: number
 }
+
+export interface CategoryFormValues {
+  name: string
+  description: string
+}

@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react"
+import { useSearchParams } from "react-router-dom"
 import { Plus, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -24,11 +25,25 @@ export default function ProductsPage({
   onAddProduct,
   onUpdateProduct,
 }: ProductsPageProps) {
-  const [activeCategory, setActiveCategory] = useState<number | "all">("all")
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  // Derived state — hindi na useState, kinukuha direkta mula sa URL tuwing nag-re-render.
+  // Ang URL na mismo ang "source of truth," kaya walang kailangang i-sync via useEffect.
+  const catParam = searchParams.get("category")
+  const activeCategory: number | "all" = catParam ? Number(catParam) : "all"
+
   const [search, setSearch] = useState("")
   const [formOpen, setFormOpen] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   const [formKey, setFormKey] = useState(0)
+
+  function handleCategorySelect(categoryId: number | "all") {
+    if (categoryId === "all") {
+      setSearchParams({})
+    } else {
+      setSearchParams({ category: String(categoryId) })
+    }
+  }
 
   const filteredProducts = useMemo(() => {
     const byCategory = filterProductsByCategory(products, activeCategory)
@@ -60,7 +75,9 @@ export default function ProductsPage({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-2xl font-semibold text-foreground">Products</h2>
-          <p className="mt-1 text-sm text-muted-foreground">Manage and monitor all products in your inventory.</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Manage and monitor all products in your inventory.
+          </p>
         </div>
         <Button onClick={handleAddClick}>
           <Plus size={16} className="mr-1.5" />
@@ -81,7 +98,7 @@ export default function ProductsPage({
         <CategoryFilter
           categories={categories}
           activeCategory={activeCategory}
-          onSelect={setActiveCategory}
+          onSelect={handleCategorySelect}
         />
       </div>
 

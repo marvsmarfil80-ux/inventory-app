@@ -1,45 +1,55 @@
-import { Card } from "@/components/ui/card"
+import { useState } from "react"
+import { Plus, Tags } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { EmptyState } from "@/components/shared/EmptyState"
-import { Tags } from "lucide-react"
-import type { Product, Category } from "@/types/inventory"
+import { CategoryCard } from "@/components/categories/CategoryCard"
+import { CategoryForm } from "@/components/categories/CategoryForm"
+import type { Product, Category, CategoryFormValues } from "@/types/inventory"
 
 interface CategoriesPageProps {
   products: Product[]
   categories: Category[]
+  onAddCategory: (values: CategoryFormValues) => void
 }
 
-export default function CategoriesPage({ products, categories }: CategoriesPageProps) {
+export default function CategoriesPage({ products, categories, onAddCategory }: CategoriesPageProps) {
+  const [formOpen, setFormOpen] = useState(false)
+
   return (
     <div className="p-4 lg:p-8">
-      <h2 className="text-2xl font-semibold text-foreground">Categories</h2>
-      <p className="mt-1 text-sm text-muted-foreground">Organize and manage your inventory categories.</p>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h2 className="text-2xl font-semibold text-foreground">Categories</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Organize and manage your inventory categories.
+          </p>
+        </div>
+        <Button onClick={() => setFormOpen(true)}>
+          <Plus size={16} className="mr-1.5" />
+          New Category
+        </Button>
+      </div>
 
       <div className="mt-6">
         {categories.length === 0 ? (
           <EmptyState
             icon={Tags}
-            title="Wala pang categories"
-            description="Gumawa ng category para ma-organize ang inventory mo."
+            title="No categories yet"
+            description="Create your first category to organize your inventory."
+            actionLabel="New Category"
+            onAction={() => setFormOpen(true)}
           />
         ) : (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map((category) => {
               const count = products.filter((p) => p.category_id === category.id).length
-              return (
-                <Card key={category.id} className="p-4">
-                  <p className="font-medium text-foreground">{category.name}</p>
-                  {category.description && (
-                    <p className="mt-1 text-sm text-muted-foreground">{category.description}</p>
-                  )}
-                  <p className="mt-3 text-sm text-muted-foreground">
-                    {count} product{count !== 1 ? "s" : ""}
-                  </p>
-                </Card>
-              )
+              return <CategoryCard key={category.id} category={category} productCount={count} />
             })}
           </div>
         )}
       </div>
+
+      <CategoryForm open={formOpen} onOpenChange={setFormOpen} onSubmit={onAddCategory} />
     </div>
   )
 }

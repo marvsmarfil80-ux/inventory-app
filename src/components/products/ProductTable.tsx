@@ -25,8 +25,8 @@ export function ProductTable({ products, hasAnyProducts, onEdit, onAddProduct }:
       return (
         <EmptyState
           icon={PackagePlus}
-          title="Wala pang products"
-          description="I-add mo yung unang item para masimulan ang pag-track ng inventory mo."
+          title="No products yet"
+          description="Add your first product to get started."
           actionLabel={onAddProduct ? "Add Product" : undefined}
           onAction={onAddProduct}
         />
@@ -35,8 +35,8 @@ export function ProductTable({ products, hasAnyProducts, onEdit, onAddProduct }:
     return (
       <EmptyState
         icon={PackageSearch}
-        title="Walang nahanap na products"
-        description="Subukan mong baguhin ang search term o category filter."
+        title="No products found"
+        description="Try adjusting your search term or category filter."
       />
     )
   }

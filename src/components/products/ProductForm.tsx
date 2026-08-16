@@ -72,11 +72,11 @@ export function ProductForm({
 
   function validate(): boolean {
     const newErrors: Partial<Record<keyof ProductFormValues, string>> = {}
-    if (!values.name.trim()) newErrors.name = "Kailangan ng product name."
-    if (values.price <= 0) newErrors.price = "Dapat mas malaki sa 0 ang price."
-    if (values.quantity < 0) newErrors.quantity = "Hindi pwedeng negative ang quantity."
-    if (values.low_stock_threshold < 0) newErrors.low_stock_threshold = "Hindi pwedeng negative."
-    if (!values.category_id) newErrors.category_id = "Pumili ng category."
+    if (!values.name.trim()) newErrors.name = "Product name is required."
+    if (values.price <= 0) newErrors.price = "Price must be a positive number."
+    if (values.quantity < 0) newErrors.quantity = "Quantity cannot be negative."
+    if (values.low_stock_threshold < 0) newErrors.low_stock_threshold = "Low stock threshold cannot be negative."
+    if (!values.category_id) newErrors.category_id = "Please select a category."
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
