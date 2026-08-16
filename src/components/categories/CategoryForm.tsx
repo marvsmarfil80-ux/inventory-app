@@ -73,9 +73,14 @@ export function CategoryForm({ open, onOpenChange, onSubmit }: CategoryFormProps
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Cancel
-            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              className="hover:border-primary/40 hover:bg-primary/10 hover:text-foreground"
+            >
+  Cancel
+</Button>
             <Button type="submit">Create Category</Button>
           </DialogFooter>
         </form>

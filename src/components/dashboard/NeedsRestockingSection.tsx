@@ -19,7 +19,11 @@ export function NeedsRestockingSection({ products, isLoading }: NeedsRestockingS
     <div className="rounded-lg border border-border bg-card p-4 sm:p-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h3 className="font-medium text-foreground">Needs restocking</h3>
-        <Button asChild variant="outline" className="w-full sm:w-auto">
+        <Button
+          asChild
+          variant="outline"
+          className="w-full hover:border-primary/40 hover:bg-primary/10 hover:text-foreground sm:w-auto"
+        >
           <Link to="/products">View all products</Link>
         </Button>
       </div>

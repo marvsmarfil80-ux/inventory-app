@@ -56,7 +56,7 @@ export function ProductTable({ products, hasAnyProducts, onEdit, onAddProduct }:
         </TableHeader>
         <TableBody>
           {products.map((product) => (
-            <TableRow key={product.id} className="hover:bg-muted/50">
+            <TableRow key={product.id} className="hover:bg-primary/5">
               <TableCell className="font-medium text-foreground whitespace-nowrap">
                 {product.name}
               </TableCell>
@@ -75,7 +75,7 @@ export function ProductTable({ products, hasAnyProducts, onEdit, onAddProduct }:
                   variant="ghost"
                   size="sm"
                   onClick={() => onEdit(product)}
-                  className="text-muted-foreground hover:text-foreground"
+                  className="text-muted-foreground hover:bg-primary/10 hover:text-foreground"
                 >
                   <Pencil size={14} className="mr-1.5" />
                   Edit

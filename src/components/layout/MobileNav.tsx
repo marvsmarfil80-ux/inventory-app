@@ -17,7 +17,7 @@ export function MobileNav() {
           <button
             type="button"
             aria-label="Open navigation menu"
-            className="rounded-lg p-2 text-muted-foreground hover:bg-muted"
+            className="rounded-lg p-2 text-muted-foreground hover:bg-primary/10 hover:text-primary"
           >
             <Menu size={20} />
           </button>

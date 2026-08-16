@@ -118,9 +118,13 @@ export function ProductForm({
               </SelectTrigger>
               <SelectContent>
                 {categories.map((c) => (
-                  <SelectItem key={c.id} value={String(c.id)}>
-                    {c.name}
-                  </SelectItem>
+                  <SelectItem
+                    key={c.id}
+                    value={String(c.id)}
+                    className="focus:bg-primary/10 focus:text-foreground"
+                  >
+  {c.name}
+</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -175,7 +179,12 @@ export function ProductForm({
           </div>
 
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+            type="button"
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            className="hover:border-primary/40 hover:bg-primary/10 hover:text-foreground"
+            >
               Cancel
             </Button>
             <Button type="submit">{isEditing ? "Save Changes" : "Add Product"}</Button>
