@@ -1,5 +1,6 @@
 import { StatsCards } from "@/components/dashboard/StatsCards"
 import { StatsCardsSkeleton } from "@/components/dashboard/StatsCardsSkeleton"
+import { NeedsRestockingSection } from "@/components/dashboard/NeedsRestockingSection"
 import type { Product, Category } from "@/types/inventory"
 
 interface DashboardPageProps {
@@ -16,6 +17,10 @@ export default function DashboardPage({ products, categories, isLoading }: Dashb
 
       <div className="mt-6">
         {isLoading ? <StatsCardsSkeleton /> : <StatsCards products={products} categories={categories} />}
+      </div>
+
+      <div className="mt-6">
+        <NeedsRestockingSection />
       </div>
     </div>
   )
