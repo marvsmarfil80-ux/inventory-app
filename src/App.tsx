@@ -6,7 +6,16 @@ import { ErrorState } from "@/components/shared/ErrorState"
 import DashboardPage from "@/pages/DashboardPage"
 import ProductsPage from "@/pages/ProductsPage"
 import CategoriesPage from "@/pages/CategoriesPage"
-import { fetchProducts, fetchCategories, createProduct, updateProduct, createCategory } from "@/lib/api"
+import {
+  fetchProducts,
+  fetchCategories,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} from "@/lib/api"
 import type { Product, Category, ProductFormValues, CategoryFormValues } from "@/types/inventory"
 
 function App() {
@@ -16,27 +25,28 @@ function App() {
   const [error, setError] = useState<string | null>(null)
 
   const fetchData = useCallback(async () => {
-  try {
-    const [productsData, categoriesData] = await Promise.all([fetchProducts(), fetchCategories()])
-    setProducts(productsData)
-    setCategories(categoriesData)
-  } catch (err) {
-    setError(err instanceof Error ? err.message : "Failed to load inventory data.")
-  } finally {
-    setIsLoading(false)
+    try {
+      const [productsData, categoriesData] = await Promise.all([fetchProducts(), fetchCategories()])
+      setProducts(productsData)
+      setCategories(categoriesData)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load inventory data.")
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    // eslint-disable-next-line -- fetchData is async; setState calls happen after the await.
+    fetchData()
+  }, [fetchData])
+
+  function retryLoad() {
+    setIsLoading(true)
+    setError(null)
+    fetchData()
   }
-}, [])
 
-useEffect(() => {
-  // eslint-disable-next-line -- fetchData is async; setState calls happen after the await.
-  fetchData()
-}, [fetchData])
-
-function retryLoad() {
-  setIsLoading(true)
-  setError(null)
-  fetchData()
-}
   async function addProduct(values: ProductFormValues) {
     const newProduct = await createProduct(values)
     setProducts((prev) => [...prev, newProduct])
@@ -47,16 +57,31 @@ function retryLoad() {
     setProducts((prev) => prev.map((p) => (p.id === id ? updated : p)))
   }
 
+  async function removeProduct(id: number) {
+    await deleteProduct(id)
+    setProducts((prev) => prev.filter((p) => p.id !== id))
+  }
+
   async function addCategory(values: CategoryFormValues) {
     const newCategory = await createCategory(values)
     setCategories((prev) => [...prev, newCategory])
+  }
+
+  async function editCategory(id: number, values: CategoryFormValues) {
+    const updated = await updateCategory(id, values)
+    setCategories((prev) => prev.map((c) => (c.id === id ? updated : c)))
+  }
+
+  async function removeCategory(id: number) {
+    await deleteCategory(id)
+    setCategories((prev) => prev.filter((c) => c.id !== id))
   }
 
   if (error) {
     return (
       <div className="flex h-screen items-center justify-center bg-background p-8">
         <div className="w-full max-w-md">
-         <ErrorState message={error} onRetry={retryLoad} />
+          <ErrorState message={error} onRetry={retryLoad} />
         </div>
       </div>
     )
@@ -82,13 +107,20 @@ function retryLoad() {
                   isLoading={isLoading}
                   onAddProduct={addProduct}
                   onUpdateProduct={editProduct}
+                  onDeleteProduct={removeProduct}
                 />
               }
             />
             <Route
               path="/categories"
               element={
-                <CategoriesPage products={products} categories={categories} onAddCategory={addCategory} />
+                <CategoriesPage
+                  products={products}
+                  categories={categories}
+                  onAddCategory={addCategory}
+                  onUpdateCategory={editCategory}
+                  onDeleteCategory={removeCategory}
+                />
               }
             />
           </Routes>

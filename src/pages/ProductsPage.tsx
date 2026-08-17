@@ -16,14 +16,15 @@ interface ProductsPageProps {
   isLoading: boolean
   onAddProduct: (values: ProductFormValues) => Promise<void>
   onUpdateProduct: (id: number, values: ProductFormValues) => Promise<void>
+  onDeleteProduct: (id: number) => Promise<void>
 }
-
 export default function ProductsPage({
   products,
   categories,
   isLoading,
   onAddProduct,
   onUpdateProduct,
+  onDeleteProduct,
 }: ProductsPageProps) {
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -106,12 +107,13 @@ export default function ProductsPage({
         {isLoading ? (
           <ProductTableSkeleton />
         ) : (
-          <ProductTable
-            products={filteredProducts}
-            hasAnyProducts={products.length > 0}
-            onEdit={handleEditClick}
-            onAddProduct={handleAddClick}
-          />
+                    <ProductTable
+                      products={filteredProducts}
+                      hasAnyProducts={products.length > 0}
+                      onEdit={handleEditClick}
+                      onDelete={onDeleteProduct}
+                      onAddProduct={handleAddClick}
+                    />
         )}
       </div>
 

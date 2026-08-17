@@ -10,30 +10,32 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import type { CategoryFormValues } from "@/types/inventory"
+import type { Category, CategoryFormValues } from "@/types/inventory"
 
 interface CategoryFormProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  initialCategory?: Category | null
   onSubmit: (values: CategoryFormValues) => Promise<void>
 }
 
-const emptyValues: CategoryFormValues = { name: "", description: "" }
+function getInitialValues(initialCategory: Category | null | undefined): CategoryFormValues {
+  if (initialCategory) {
+    return {
+      name: initialCategory.name,
+      description: initialCategory.description ?? "",
+    }
+  }
+  return { name: "", description: "" }
+}
 
-export function CategoryForm({ open, onOpenChange, onSubmit }: CategoryFormProps) {
-  const [values, setValues] = useState<CategoryFormValues>(emptyValues)
+export function CategoryForm({ open, onOpenChange, initialCategory, onSubmit }: CategoryFormProps) {
+  const [values, setValues] = useState<CategoryFormValues>(() => getInitialValues(initialCategory))
   const [error, setError] = useState<string | null>(null)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  function handleOpenChange(next: boolean) {
-    if (next) {
-      setValues(emptyValues)
-      setError(null)
-      setSubmitError(null)
-    }
-    onOpenChange(next)
-  }
+  const isEditing = Boolean(initialCategory)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -49,17 +51,17 @@ export function CategoryForm({ open, onOpenChange, onSubmit }: CategoryFormProps
       await onSubmit(values)
       onOpenChange(false)
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : "Failed to create category.")
+      setSubmitError(err instanceof Error ? err.message : "Failed to save category.")
     } finally {
       setIsSubmitting(false)
     }
   }
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="w-[calc(100%-2rem)] sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>New Category</DialogTitle>
+          <DialogTitle>{isEditing ? "Edit Category" : "New Category"}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -101,7 +103,7 @@ export function CategoryForm({ open, onOpenChange, onSubmit }: CategoryFormProps
               Cancel
             </Button>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Creating..." : "Create Category"}
+              {isSubmitting ? "Saving..." : isEditing ? "Save Changes" : "Create Category"}
             </Button>
           </DialogFooter>
         </form>

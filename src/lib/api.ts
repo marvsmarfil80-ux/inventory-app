@@ -11,6 +11,14 @@ async function handleResponse<T>(response: Response): Promise<T> {
   return response.json()
 }
 
+async function handleVoidResponse(response: Response): Promise<void> {
+  if (!response.ok) {
+    const errorBody = await response.json().catch(() => null)
+    const message = errorBody?.detail || `Request failed with status ${response.status}`
+    throw new Error(message)
+  }
+}
+
 export async function fetchProducts(): Promise<Product[]> {
   const res = await fetch(`${API_URL}/products/`)
   return handleResponse<Product[]>(res)
@@ -39,6 +47,11 @@ export async function updateProduct(id: number, values: ProductFormValues): Prom
   return handleResponse<Product>(res)
 }
 
+export async function deleteProduct(id: number): Promise<void> {
+  const res = await fetch(`${API_URL}/products/${id}`, { method: "DELETE" })
+  return handleVoidResponse(res)
+}
+
 export async function createCategory(values: CategoryFormValues): Promise<Category> {
   const res = await fetch(`${API_URL}/categories/`, {
     method: "POST",
@@ -46,4 +59,18 @@ export async function createCategory(values: CategoryFormValues): Promise<Catego
     body: JSON.stringify(values),
   })
   return handleResponse<Category>(res)
+}
+
+export async function updateCategory(id: number, values: CategoryFormValues): Promise<Category> {
+  const res = await fetch(`${API_URL}/categories/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(values),
+  })
+  return handleResponse<Category>(res)
+}
+
+export async function deleteCategory(id: number): Promise<void> {
+  const res = await fetch(`${API_URL}/categories/${id}`, { method: "DELETE" })
+  return handleVoidResponse(res)
 }
