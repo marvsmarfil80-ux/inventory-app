@@ -121,7 +121,11 @@ export function ProductForm({
               </SelectTrigger>
               <SelectContent>
                 {categories.map((c) => (
-                  <SelectItem key={c.id} value={String(c.id)} className="focus:bg-primary/10 focus:text-foreground">
+                  <SelectItem
+                    key={c.id}
+                    value={String(c.id)}
+                    className="focus:bg-primary/10 focus:text-foreground"
+                  >
                     {c.name}
                   </SelectItem>
                 ))}
@@ -142,6 +146,7 @@ export function ProductForm({
                 min="0"
                 value={values.price}
                 onChange={(e) => setValues({ ...values, price: Number(e.target.value) })}
+                onFocus={(e) => e.target.select()}
               />
               {errors.price && <p className="text-xs text-red-500 dark:text-red-400">{errors.price}</p>}
             </div>
@@ -154,6 +159,7 @@ export function ProductForm({
                 min="0"
                 value={values.quantity}
                 onChange={(e) => setValues({ ...values, quantity: Number(e.target.value) })}
+                onFocus={(e) => e.target.select()}
               />
               {errors.quantity && (
                 <p className="text-xs text-red-500 dark:text-red-400">{errors.quantity}</p>
@@ -171,6 +177,7 @@ export function ProductForm({
               onChange={(e) =>
                 setValues({ ...values, low_stock_threshold: Number(e.target.value) })
               }
+              onFocus={(e) => e.target.select()}
             />
             {errors.low_stock_threshold && (
               <p className="text-xs text-red-500 dark:text-red-400">{errors.low_stock_threshold}</p>
