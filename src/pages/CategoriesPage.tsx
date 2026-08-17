@@ -9,7 +9,7 @@ import type { Product, Category, CategoryFormValues } from "@/types/inventory"
 interface CategoriesPageProps {
   products: Product[]
   categories: Category[]
-  onAddCategory: (values: CategoryFormValues) => void
+  onAddCategory: (values: CategoryFormValues) => Promise<void>
 }
 
 export default function CategoriesPage({ products, categories, onAddCategory }: CategoriesPageProps) {

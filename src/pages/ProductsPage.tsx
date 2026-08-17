@@ -14,8 +14,8 @@ interface ProductsPageProps {
   products: Product[]
   categories: Category[]
   isLoading: boolean
-  onAddProduct: (values: ProductFormValues) => void
-  onUpdateProduct: (id: number, values: ProductFormValues) => void
+  onAddProduct: (values: ProductFormValues) => Promise<void>
+  onUpdateProduct: (id: number, values: ProductFormValues) => Promise<void>
 }
 
 export default function ProductsPage({
@@ -62,11 +62,11 @@ export default function ProductsPage({
     setFormOpen(true)
   }
 
-  function handleFormSubmit(values: ProductFormValues) {
+  async function handleFormSubmit(values: ProductFormValues) {
     if (editingProduct) {
-      onUpdateProduct(editingProduct.id, values)
+      await onUpdateProduct(editingProduct.id, values)
     } else {
-      onAddProduct(values)
+      await onAddProduct(values)
     }
   }
 

@@ -16,22 +16,14 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
-import type { Product, Category } from "@/types/inventory"
-
-interface ProductFormValues {
-  name: string
-  price: number
-  quantity: number
-  low_stock_threshold: number
-  category_id: number
-}
+import type { Product, Category, ProductFormValues } from "@/types/inventory"
 
 interface ProductFormProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   categories: Category[]
   initialProduct?: Product | null
-  onSubmit: (values: ProductFormValues) => void
+  onSubmit: (values: ProductFormValues) => Promise<void>
 }
 
 function getInitialValues(
@@ -67,25 +59,36 @@ export function ProductForm({
     getInitialValues(initialProduct, categories)
   )
   const [errors, setErrors] = useState<Partial<Record<keyof ProductFormValues, string>>>({})
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const isEditing = Boolean(initialProduct)
 
   function validate(): boolean {
     const newErrors: Partial<Record<keyof ProductFormValues, string>> = {}
     if (!values.name.trim()) newErrors.name = "Product name is required."
-    if (values.price <= 0) newErrors.price = "Price must be a positive number."
+    if (values.price <= 0) newErrors.price = "Price must be greater than 0."
     if (values.quantity < 0) newErrors.quantity = "Quantity cannot be negative."
-    if (values.low_stock_threshold < 0) newErrors.low_stock_threshold = "Low stock threshold cannot be negative."
+    if (values.low_stock_threshold < 0) newErrors.low_stock_threshold = "Cannot be negative."
     if (!values.category_id) newErrors.category_id = "Please select a category."
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+    setSubmitError(null)
     if (!validate()) return
-    onSubmit(values)
-    onOpenChange(false)
+
+    setIsSubmitting(true)
+    try {
+      await onSubmit(values)
+      onOpenChange(false)
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : "Failed to save product.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -118,13 +121,9 @@ export function ProductForm({
               </SelectTrigger>
               <SelectContent>
                 {categories.map((c) => (
-                  <SelectItem
-                    key={c.id}
-                    value={String(c.id)}
-                    className="focus:bg-primary/10 focus:text-foreground"
-                  >
-  {c.name}
-</SelectItem>
+                  <SelectItem key={c.id} value={String(c.id)} className="focus:bg-primary/10 focus:text-foreground">
+                    {c.name}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -178,16 +177,24 @@ export function ProductForm({
             )}
           </div>
 
+          {submitError && (
+            <p className="rounded-md bg-red-50 px-3 py-2 text-xs text-red-600 dark:bg-red-950 dark:text-red-400">
+              {submitError}
+            </p>
+          )}
+
           <DialogFooter>
             <Button
-            type="button"
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            className="hover:border-primary/40 hover:bg-primary/10 hover:text-foreground"
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              className="hover:border-primary/40 hover:bg-primary/10 hover:text-foreground"
             >
               Cancel
             </Button>
-            <Button type="submit">{isEditing ? "Save Changes" : "Add Product"}</Button>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Saving..." : isEditing ? "Save Changes" : "Add Product"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
