@@ -22,7 +22,10 @@ export function MobileNav() {
             <Menu size={20} />
           </button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-64 bg-[#111111] p-0 text-white [&>button]:text-white">
+        <SheetContent
+          side="left"
+          className="w-64 bg-sidebar p-0 text-sidebar-foreground [&>button]:text-sidebar-foreground"
+        >
           <div className="flex h-full flex-col">
             <SheetTitle className="px-6 py-6 text-lg font-semibold">Inventory</SheetTitle>
             <nav className="flex flex-1 flex-col gap-1 px-3">
@@ -38,7 +41,7 @@ export function MobileNav() {
                       `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors ${
                         isActive
                           ? "bg-primary text-primary-foreground font-medium"
-                          : "text-gray-400 hover:bg-white/5 hover:text-white"
+                          : "text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-foreground"
                       }`
                     }
                   >
@@ -48,7 +51,7 @@ export function MobileNav() {
                 )
               })}
             </nav>
-            <div className="border-t border-white/10 px-3 py-3">
+            <div className="border-t border-sidebar-border px-3 py-3">
               <ThemeToggle />
             </div>
           </div>
